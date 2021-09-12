@@ -1,4 +1,4 @@
-const HDWalletProvider = require("truffle-hdwallet-provider");
+const HDWalletProvider = require("@truffle/hdwallet-provider");
 
 const MNEMONIC = process.env.MNEMONIC;
 const NODE_API_KEY = process.env.INFURA_KEY || process.env.ALCHEMY_KEY;
@@ -22,6 +22,10 @@ const mainnetNodeUrl = isInfura
   ? "https://mainnet.infura.io/v3/" + NODE_API_KEY
   : "https://eth-mainnet.alchemyapi.io/v2/" + NODE_API_KEY;
 
+const mumbaiNodeUrl = 'https://rpc-mumbai.matic.today';
+const maticNodeUrl = 'https://rpc-mumbai.matic.today'; //Get Polygon mainnet url.
+
+
 module.exports = {
   networks: {
     development: {
@@ -29,6 +33,20 @@ module.exports = {
       port: 7545,
       gas: 5000000,
       network_id: "*", // Match any network id
+    },
+    mumbai: {
+      provider: () => new HDWalletProvider(MNEMONIC, mumbaiNodeUrl),
+      network_id: 80001,
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true
+    },
+    matic: {
+      provider: () => new HDWalletProvider(MNEMONIC, maticNodeUrl),
+      network_id: 80001,
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true
     },
     rinkeby: {
       provider: function () {
